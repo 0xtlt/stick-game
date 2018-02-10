@@ -15,5 +15,13 @@
   "bugs": {
     "url": "https://github.com/ThomasT404/stick-game/issues"
   },
-  "homepage": "https://github.com/ThomasT404/stick-game#readme"
+  "homepage": "https://github.com/ThomasT404/stick-game#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "express-compile-sass": "^3.0.4",
+    "node-sass": "^4.7.2",
+    "socket.io": "^2.0.4",
+    "ejs": "^2.5.7",
+    "node-session": "^1.2.1"
+  }
 }
