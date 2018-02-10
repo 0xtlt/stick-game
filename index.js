@@ -9,14 +9,15 @@ session = new NodeSession({secret: '5aKjfqQWADepP5dzi2e7QTCv2ErKhJx8xFSawx7D'});
 
 /* Here we stock all games data */
 
-var game_data = {
+var game_data = [
 
-}
+]
 
 var default_game = {
+    name: '',
     id_one: 0,
     id_two: 1,
-    full: false,
+    full: true,
     data: {
 
     },
@@ -56,6 +57,38 @@ io.sockets.on('connection', function (socket) {
 
 
 /* All of the functions are here */
+
+function grep( elems, callback, invert ) {
+    var callbackInverse,
+        matches = [],
+        i = 0,
+        length = elems.length,
+        callbackExpect = !invert;
+
+    // Go through the array, only saving the items
+    // that pass the validator function
+    for ( ; i < length; i++ ) {
+        callbackInverse = !callback( elems[ i ], i );
+        if ( callbackInverse !== callbackExpect ) {
+            matches.push( elems[ i ] );
+        }
+    }
+
+    return matches;
+}
+
+function search_game(){
+    r = grep(game_data, (e) => { if(e.full === false){ return e } })
+    if(r.length === 0){
+        new_game()
+    } else {
+        join_game(r[0].name)
+    }
+}
+
+function join_game() {
+
+}
 
 function new_game(){
 
