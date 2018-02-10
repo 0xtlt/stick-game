@@ -1,0 +1,19 @@
+{
+  "name": "stick-game",
+  "version": "1.0.0",
+  "description": "a little game to play with friends, inspired by a real game played in class",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThomasT404/stick-game.git"
+  },
+  "author": "Thomas Tastet",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ThomasT404/stick-game/issues"
+  },
+  "homepage": "https://github.com/ThomasT404/stick-game#readme"
+}
