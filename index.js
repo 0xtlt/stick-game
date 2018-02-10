@@ -2,10 +2,14 @@ var compileSass = require('express-compile-sass');
 var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
-var NodeSession = require('node-session');
+var session = require('express-session');
+var cookie = require('cookie');
+var cookieParser = require('cookie-parser');
+var sessionStore = new session.MemoryStore();
 var root = process.cwd();
 
-session = new NodeSession({secret: '5aKjfqQWADepP5dzi2e7QTCv2ErKhJx8xFSawx7D'});
+var COOKIE_SECRET = '5aKjfqQWADepP5dzi2e7QTCv2ErKhJx8xFSawx7D';
+var COOKIE_NAME = 'sid';
 
 /* Here we stock all games data */
 
@@ -16,8 +20,8 @@ var game_data = [
 var default_game = {
     name: '',
     id_one: 0,
-    id_two: 1,
-    full: true,
+    id_two: 0,
+    full: false,
     data: {
 
     },
@@ -28,10 +32,24 @@ var default_game = {
 /* END data */
 
 app.get('/', function(req, res) {
-    session.startSession(req, res, function() {
-        res.render('home.ejs', {});
-    })
+    res.render('home.ejs', {});
 })
+
+    .use(cookieParser(COOKIE_SECRET))
+
+    .use(session({
+        name: COOKIE_NAME,
+        store: sessionStore,
+        secret: COOKIE_SECRET,
+        saveUninitialized: true,
+        resave: true,
+        cookie: {
+            path: '/',
+            httpOnly: true,
+            secure: false,
+            maxAge: null
+        }
+    }))
 
     .use('/assets', express.static('sub/public'))
 
@@ -46,11 +64,16 @@ app.get('/', function(req, res) {
 
 var io = require('socket.io')(server);
 io.sockets.on('connection', function (socket) {
+    var data = socket.handshake || socket.request;
+    if (! data.headers.cookie) {
+        return next(new Error('Missing cookie headers'));
+    }
 
     console.log('Un client est connecté !');
 
     socket.on('pseudo', function(data){
         console.log(`${data} cherche une game`)
+        search_game(socket);
     })
 
 });
@@ -77,21 +100,50 @@ function grep( elems, callback, invert ) {
     return matches;
 }
 
-function search_game(){
+function search_game(socket){
     r = grep(game_data, (e) => { if(e.full === false){ return e } })
     if(r.length === 0){
-        new_game()
+        new_game(socket)
     } else {
-        join_game(r[0].name)
+        join_game(r[0], socket)
     }
 }
 
-function join_game() {
-
+function join_game(game, socket) {
+    socket.join(game.name)
+    game.full = true
+    socket.emit('join_game', {
+        name: game.name,
+        data: game.data
+    })
 }
 
-function new_game(){
+function new_game(socket){
+    random_name = make_room_name()
+    socket.join(random_name)
+    var new_game = default_game
+    new_game.name = random_name
+    new_game.id_one = session.get('id');
+    game_data.push(new_game)
+    socket.emit('join_game', {
+        name: random_name,
+        data: {}
+    })
+}
 
+function leave_game(game_name, socket) {
+    socket.leave(game_name)
+    socket.emit('stop')
+}
+
+function make_room_name() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for (var i = 0; i < 30; i++)
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
 }
 
 /* End functions */
