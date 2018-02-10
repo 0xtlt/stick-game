@@ -5,19 +5,23 @@ var ingame = {
     }
 }
 
-$(document).ready(() => {
+var socket = io.connect('http://localhost:80');
 
-    var socket = io.connect('http://localhost:80');
-
-    var app = new Vue({
-        el: '#home',
-        data: {
-            msg: 'Welcome to the Home'
+var app = new Vue({
+    el: '#home',
+    methods: {
+        play: function () {
+            socket.emit('pseudo', app.pseudo)
+            console.log('fait')
         }
-    })
+    },
 
-    var game = new Vue({
-        el: '#game'
-    })
+    data: {
+        msg: 'Welcome to the Home',
+        pseudo: ''
+    }
+})
 
+var game = new Vue({
+    el: '#game'
 })

@@ -12,8 +12,8 @@
     <div id="home">
         <h1>{{ msg }}</h1>
         <label for="pseudo">Chose your name</label>
-        <input type="text" id="pseudo">
-        <button v-on:click="play()">Play !</button>
+        <input type="text" v-model="pseudo" id="pseudo">
+        <button v-on:click="play">Play !</button>
     </div>
     <div id="game">
 

@@ -49,7 +49,7 @@ io.sockets.on('connection', function (socket) {
     console.log('Un client est connecté !');
 
     socket.on('pseudo', function(data){
-
+        console.log(`${data} cherche une game`)
     })
 
 });
