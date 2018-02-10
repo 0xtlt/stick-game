@@ -25,3 +25,7 @@ var app = new Vue({
 var game = new Vue({
     el: '#game'
 })
+
+socket.on('join_game', (e) => {
+    alert('')
+})

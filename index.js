@@ -1,12 +1,12 @@
-var compileSass = require('express-compile-sass');
-var express = require('express');
-var app = express();
-var server = require('http').createServer(app);
-var session = require('express-session');
-var cookie = require('cookie');
-var cookieParser = require('cookie-parser');
-var sessionStore = new session.MemoryStore();
-var root = process.cwd();
+var compileSass = require('express-compile-sass'),
+express = require('express'),
+app = express(),
+server = require('http').createServer(app),
+session = require('express-session'),
+cookie = require('cookie'),
+cookieParser = require('cookie-parser'),
+sessionStore = new session.MemoryStore(),
+root = process.cwd();
 
 var COOKIE_SECRET = '5aKjfqQWADepP5dzi2e7QTCv2ErKhJx8xFSawx7D';
 var COOKIE_NAME = 'sid';
@@ -68,12 +68,13 @@ io.sockets.on('connection', function (socket) {
     if (! data.headers.cookie) {
         return next(new Error('Missing cookie headers'));
     }
+    var cookies = cookie.parse(data.headers.cookie);
 
     console.log('Un client est connecté !');
 
     socket.on('pseudo', function(data){
         console.log(`${data} cherche une game`)
-        search_game(socket);
+        search_game(socket, cookies.sid);
     })
 
 });
@@ -100,17 +101,18 @@ function grep( elems, callback, invert ) {
     return matches;
 }
 
-function search_game(socket){
+function search_game(socket, sid){
     r = grep(game_data, (e) => { if(e.full === false){ return e } })
     if(r.length === 0){
-        new_game(socket)
+        new_game(socket, sid)
     } else {
-        join_game(r[0], socket)
+        join_game(r[0], socket, sid)
     }
 }
 
-function join_game(game, socket) {
+function join_game(game, socket, sid) {
     socket.join(game.name)
+    game.id_two = sid
     game.full = true
     socket.emit('join_game', {
         name: game.name,
@@ -118,12 +120,12 @@ function join_game(game, socket) {
     })
 }
 
-function new_game(socket){
+function new_game(socket, sid){
     random_name = make_room_name()
     socket.join(random_name)
     var new_game = default_game
     new_game.name = random_name
-    new_game.id_one = session.get('id');
+    new_game.id_one = sid
     game_data.push(new_game)
     socket.emit('join_game', {
         name: random_name,
