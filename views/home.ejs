@@ -9,5 +9,22 @@
 </head>
 <body>
 
+    <div id="home">
+        <h1>{{ msg }}</h1>
+        <label for="pseudo">Chose your name</label>
+        <input type="text" id="pseudo">
+        <button v-on:click="play()">Play !</button>
+    </div>
+    <div id="game">
+
+    </div>
+
+<script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/assets/js/master.js"></script>
 </body>
 </html>
