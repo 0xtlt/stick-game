@@ -47,6 +47,10 @@ socket.on('join_game', (e) => {
     ingame.data = e.data
 })
 
+socket.on('ready', () => {
+    game.InGame = true
+})
+
 /* for debugging */
 function get_server(){
     socket.emit('debug')

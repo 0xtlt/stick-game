@@ -126,6 +126,8 @@ function join_game(game, socket, sid) {
         name: game.name,
         data: game.data
     })
+    socket.to(game.name).emit('ready')
+    socket.emit('ready')
 }
 
 function new_game(socket, sid){
