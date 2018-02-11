@@ -78,6 +78,7 @@ io.sockets.on('connection', function (socket) {
     })
 
     socket.on('take', (e) => {
+        var repeat_lap = false
         console.log(`At position : col = ${e.sec.col} & block = ${e.sec.block}, change color of the ${e.side} side`)
         r = grep(game_data, (v) => { if(v.name === e.code){ return v } })[0]
         if(r.lap !== cookies.sid){
@@ -96,6 +97,7 @@ io.sockets.on('connection', function (socket) {
 
                 if(r.data[e.sec.col].blocks[e.sec.block].left === 1 && r.data[e.sec.col].blocks[e.sec.block].top === 1 && r.data[(e.sec.col)+1].blocks[e.sec.block].left === 1 && r.data[e.sec.col].blocks[(e.sec.block)+1].top === 1){
                     r.data[e.sec.col].blocks[e.sec.block].class += ' fill-'+color
+                    repeat_lap = true
                     if(r.lap === r.id_two.id){
                         r.score.two += 1
                     } else {
@@ -111,6 +113,7 @@ io.sockets.on('connection', function (socket) {
 
                 if(r.data[e.sec.col].blocks[e.sec.block].left === 1 && r.data[e.sec.col].blocks[e.sec.block].top === 1 && r.data[(e.sec.col)+1].blocks[e.sec.block].left === 1 && r.data[e.sec.col].blocks[(e.sec.block)+1].top === 1){
                     r.data[e.sec.col].blocks[e.sec.block].class += ' fill-'+color
+                    repeat_lap = true
                     if(r.lap === r.id_two.id){
                         r.score.two += 1
                     } else {
@@ -126,6 +129,7 @@ io.sockets.on('connection', function (socket) {
 
                 if(r.data[e.sec.col].blocks[e.sec.block].left === 1 && r.data[e.sec.col].blocks[e.sec.block].top === 1 && r.data[(e.sec.col)+1].blocks[e.sec.block].left === 1 && r.data[e.sec.col].blocks[(e.sec.block)+1].top === 1){
                     r.data[e.sec.col].blocks[e.sec.block].class += ' fill-'+color
+                    repeat_lap = true
                     if(r.lap === r.id_two.id){
                         r.score.two += 1
                     } else {
@@ -141,6 +145,7 @@ io.sockets.on('connection', function (socket) {
 
                 if(r.data[e.sec.col].blocks[e.sec.block].left === 1 && r.data[e.sec.col].blocks[e.sec.block].top === 1 && r.data[(e.sec.col)+1].blocks[e.sec.block].left === 1 && r.data[e.sec.col].blocks[(e.sec.block)+1].top === 1){
                     r.data[e.sec.col].blocks[e.sec.block].class += ' fill-'+color
+                    repeat_lap = true
                     if(r.lap === r.id_two.id){
                         r.score.two += 1
                     } else {
@@ -154,15 +159,16 @@ io.sockets.on('connection', function (socket) {
                 break
         }
 
-
-        if(r.lap === r.id_one.id){
-            r.lap = r.id_two.id
-        } else {
-            r.lap = r.id_one.id
+        if(repeat_lap === false){
+            if(r.lap === r.id_one.id){
+                r.lap = r.id_two.id
+            } else {
+                r.lap = r.id_one.id
+            }
         }
 
-        socket.emit('up', [r.data, r.score])
-        socket.to(e.code).emit('up', [r.data, r.score])
+        socket.emit('up', [r.data, r.score, repeat_lap])
+        socket.to(e.code).emit('up', [r.data, r.score, repeat_lap])
     })
 
     socket.on('debug', () => {

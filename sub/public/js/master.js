@@ -87,10 +87,12 @@ socket.on('up', (e) => {
     game.data = e[0]
     console.log('Update')
     game.score = e[1]
-    if(game.lap){
-        game.lap = false
-    } else {
-        game.lap = true
+    if(e[2] === false){
+        if(game.lap){
+            game.lap = false
+        } else {
+            game.lap = true
+        }
     }
 })
 
