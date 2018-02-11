@@ -82,7 +82,9 @@ io.sockets.on('connection', function (socket) {
         socket.emit('change_lap')
         console.log(`At position : col = ${e.sec.col} & block = ${e.sec.block}, change color of the ${e.side} side`)
         r = grep(game_data, (v) => { if(v.name === e.code){ return v } })[0]
-
+        if(r.lap !== cookies.sid){
+            return
+        }
         switch (e.side) {
             case 'left':
                 r.data[e.sec.col].blocks[e.sec.block].left = 1
@@ -128,19 +130,12 @@ io.sockets.on('connection', function (socket) {
                 break
         }
 
-        /* check if a square is circled */
 
-        if(e.side === 'left' || e.side === 'right'){
-            //check the left square
-            if(r.data[e.sec.col].blocks[e.sec.block].left === 1){
-
-            }
+        if(r.lap === r.id_one.id){
+            r.lap = r.id_two.id
         } else {
-
+            r.lap = r.id_one.id
         }
-
-        /* end check */
-
 
         socket.emit('up', r.data)
         socket.to(e.code).emit('up', r.data)

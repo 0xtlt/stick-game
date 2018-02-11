@@ -94,7 +94,7 @@ socket.on('up', (e) => {
 
         }
     }
-})
+})*/
 
 socket.on('change_lap', () => {
     if(game.lap){
@@ -102,7 +102,7 @@ socket.on('change_lap', () => {
     } else {
         game.lap = true
     }
-})*/
+})
 
 /* for debugging */
 function get_server(){
