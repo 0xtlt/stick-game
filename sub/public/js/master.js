@@ -42,6 +42,10 @@ var game = new Vue({
         adv: '',
         lap: false,
         modal: false,
+        score: {
+          one: 0,
+          two: 0
+        },
         data: [
 
         ],
@@ -80,9 +84,14 @@ socket.on('ready', (e) => {
 })
 
 socket.on('up', (e) => {
-    game.data = e
+    game.data = e[0]
     console.log('Update')
-    console.log(e)
+    game.score = e[1]
+    if(game.lap){
+        game.lap = false
+    } else {
+        game.lap = true
+    }
 })
 
 
@@ -95,14 +104,6 @@ socket.on('up', (e) => {
         }
     }
 })*/
-
-socket.on('change_lap', () => {
-    if(game.lap){
-        game.lap = false
-    } else {
-        game.lap = true
-    }
-})
 
 /* for debugging */
 function get_server(){

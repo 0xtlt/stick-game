@@ -78,50 +78,74 @@ io.sockets.on('connection', function (socket) {
     })
 
     socket.on('take', (e) => {
-        socket.to(e.code).emit('change_lap')
-        socket.emit('change_lap')
         console.log(`At position : col = ${e.sec.col} & block = ${e.sec.block}, change color of the ${e.side} side`)
         r = grep(game_data, (v) => { if(v.name === e.code){ return v } })[0]
         if(r.lap !== cookies.sid){
             return
         }
+
+        if(r.lap === r.id_two.id){
+            color = 'red'
+        } else {
+            color = 'blue'
+        }
         switch (e.side) {
             case 'left':
                 r.data[e.sec.col].blocks[e.sec.block].left = 1
-                r.data[e.sec.col].blocks[e.sec.block].class += ' left-blue'
+                r.data[e.sec.col].blocks[e.sec.block].class += ' left-'+color
 
                 if(r.data[e.sec.col].blocks[e.sec.block].left === 1 && r.data[e.sec.col].blocks[e.sec.block].top === 1 && r.data[(e.sec.col)+1].blocks[e.sec.block].left === 1 && r.data[e.sec.col].blocks[(e.sec.block)+1].top === 1){
-                    r.data[e.sec.col].blocks[e.sec.block].class += ' fill-blue'
+                    r.data[e.sec.col].blocks[e.sec.block].class += ' fill-'+color
+                    if(r.lap === r.id_two.id){
+                        r.score.two += 1
+                    } else {
+                        r.score.one += 1
+                    }
                 }
 
                 break
 
             case 'right':
                 r.data[(e.sec.col)+1].blocks[e.sec.block].left = 1
-                r.data[(e.sec.col)+1].blocks[e.sec.block].class += ' left-blue'
+                r.data[(e.sec.col)+1].blocks[e.sec.block].class += ' left-'+color
 
                 if(r.data[e.sec.col].blocks[e.sec.block].left === 1 && r.data[e.sec.col].blocks[e.sec.block].top === 1 && r.data[(e.sec.col)+1].blocks[e.sec.block].left === 1 && r.data[e.sec.col].blocks[(e.sec.block)+1].top === 1){
-                    r.data[e.sec.col].blocks[e.sec.block].class += ' fill-blue'
+                    r.data[e.sec.col].blocks[e.sec.block].class += ' fill-'+color
+                    if(r.lap === r.id_two.id){
+                        r.score.two += 1
+                    } else {
+                        r.score.one += 1
+                    }
                 }
 
                 break
 
             case 'top':
                 r.data[e.sec.col].blocks[e.sec.block].top = 1
-                r.data[e.sec.col].blocks[e.sec.block].class += ' top-blue'
+                r.data[e.sec.col].blocks[e.sec.block].class += ' top-'+color
 
                 if(r.data[e.sec.col].blocks[e.sec.block].left === 1 && r.data[e.sec.col].blocks[e.sec.block].top === 1 && r.data[(e.sec.col)+1].blocks[e.sec.block].left === 1 && r.data[e.sec.col].blocks[(e.sec.block)+1].top === 1){
-                    r.data[e.sec.col].blocks[e.sec.block].class += ' fill-blue'
+                    r.data[e.sec.col].blocks[e.sec.block].class += ' fill-'+color
+                    if(r.lap === r.id_two.id){
+                        r.score.two += 1
+                    } else {
+                        r.score.one += 1
+                    }
                 }
 
                 break
 
             case 'bottom':
                 r.data[e.sec.col].blocks[(e.sec.block)+1].top = 1
-                r.data[e.sec.col].blocks[(e.sec.block)+1].class += ' top-blue'
+                r.data[e.sec.col].blocks[(e.sec.block)+1].class += ' top-'+color
 
                 if(r.data[e.sec.col].blocks[e.sec.block].left === 1 && r.data[e.sec.col].blocks[e.sec.block].top === 1 && r.data[(e.sec.col)+1].blocks[e.sec.block].left === 1 && r.data[e.sec.col].blocks[(e.sec.block)+1].top === 1){
-                    r.data[e.sec.col].blocks[e.sec.block].class += ' fill-blue'
+                    r.data[e.sec.col].blocks[e.sec.block].class += ' fill-'+color
+                    if(r.lap === r.id_two.id){
+                        r.score.two += 1
+                    } else {
+                        r.score.one += 1
+                    }
                 }
 
                 break
@@ -137,8 +161,8 @@ io.sockets.on('connection', function (socket) {
             r.lap = r.id_one.id
         }
 
-        socket.emit('up', r.data)
-        socket.to(e.code).emit('up', r.data)
+        socket.emit('up', [r.data, r.score])
+        socket.to(e.code).emit('up', [r.data, r.score])
     })
 
     socket.on('debug', () => {
@@ -209,6 +233,10 @@ function new_game(socket, sid, pseudo){
 
         ],
         winner: 0,
+        score: {
+          one: 0,
+          two: 0
+        },
         finish: false
     }
 
