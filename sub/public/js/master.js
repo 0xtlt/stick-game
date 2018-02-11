@@ -9,9 +9,9 @@ if(debug){
 
 var ingame = {
     code_game: null,
-    data: {
+    data: [
 
-    }
+    ]
 }
 
 var socket = io.connect('http://localhost:80');

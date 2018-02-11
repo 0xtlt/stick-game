@@ -140,19 +140,43 @@ function new_game(socket, sid, pseudo){
         id_one: {id: 0, pseudo: ''},
         id_two: {id: 0, pseudo: ''},
         full: false,
-        data: {
+        data: [
 
-        },
+        ],
         winner: 0,
         finish: false
     }
+
+    //generate columns
+    for(n = 0; n < 10; n++){
+
+        var col = {
+            col: n,
+            blocks: [
+
+            ]
+        }
+
+        //generate blocks
+        for(i = 0; i < 10; i++){
+            col.blocks.push({
+                block: i,
+                left: 0,
+                top: 0
+            })
+        }
+
+        new_game.data.push(col)
+
+    }
+
     new_game.name = random_name
     new_game.id_one.id = sid
     new_game.id_one.pseudo = pseudo
     game_data.push(new_game)
     socket.emit('join_game', {
         name: random_name,
-        data: {}
+        data: new_game.data
     })
 }
 

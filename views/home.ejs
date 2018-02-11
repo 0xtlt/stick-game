@@ -24,7 +24,14 @@
             <i class="fas fa-spinner fa-spin"></i>
         </div>
         <div id="ingame" v-if="InGame">
+
             <h1>{{ app.pseudo }} vs {{ adv }}</h1>
+            <div id="stick">
+                <div class="col" v-for="item in ingame.data">{{ item.col }}
+                    <div class="block" v-for="ii in item.blocks">{{ ii.top }} : {{ ii.left }}</div>
+                </div>
+            </div>
+
         </div>
     </div>
 
