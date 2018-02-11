@@ -44,11 +44,26 @@ var game = new Vue({
         modal: false,
         data: [
 
-        ]
+        ],
+        selection: {
+            col: 0,
+            block: 0
+        }
     },
     methods: {
         block: function(col, block){
             console.log(`col is ${col} and block is ${block}`)
+            game.modal = true
+            game.selection.col = col
+            game.selection.block = block
+        },
+        take_stick: function (side) {
+            socket.emit('take', {
+                sec: game.selection,
+                side: side,
+                code: ingame.code_game
+            })
+            game.modal = false
         }
     }
 })
@@ -65,13 +80,21 @@ socket.on('ready', (e) => {
 })
 
 
-socket.on('end', () =>{
+socket.on('end', () => {
     game.InGame = false
     game = {
         code_game: null,
         data: {
 
         }
+    }
+})
+
+socket.on('change_lap', () => {
+    if(game.lap){
+        game.lap = false
+    } else {
+        game.lap = true
     }
 })
 

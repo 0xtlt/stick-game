@@ -77,6 +77,12 @@ io.sockets.on('connection', function (socket) {
         search_game(socket, cookies.sid, data);
     })
 
+    socket.on('take', (e) => {
+        socket.to(e.code).emit('change_lap')
+        socket.emit('change_lap')
+        console.log(`At position : col = ${e.sec.col} & block = ${e.sec.block}, change color of the ${e.side} side`)
+    })
+
     socket.on('debug', () => {
         socket.emit('debug', [game_data, default_game])
     })

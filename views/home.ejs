@@ -35,7 +35,12 @@
             </div>
 
             <div class="modal" v-if="modal">
-                hello
+                <div class="choose">
+                    <div class="bartop" v-on:click="take_stick('top')"></div>
+                    <div class="barleft" v-on:click="take_stick('left')"></div>
+                    <div class="barright" v-on:click="take_stick('right')"></div>
+                    <div class="barbottom" v-on:click="take_stick('bottom')"></div>
+                </div>
             </div>
 
         </div>
