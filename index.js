@@ -83,8 +83,65 @@ io.sockets.on('connection', function (socket) {
         console.log(`At position : col = ${e.sec.col} & block = ${e.sec.block}, change color of the ${e.side} side`)
         r = grep(game_data, (v) => { if(v.name === e.code){ return v } })[0]
 
-        r.data[e.sec.col].blocks[e.sec.block].left = 1
-        r.data[e.sec.col].blocks[e.sec.block].class = 'left-blue'
+        switch (e.side) {
+            case 'left':
+                r.data[e.sec.col].blocks[e.sec.block].left = 1
+                r.data[e.sec.col].blocks[e.sec.block].class += ' left-blue'
+
+                if(r.data[e.sec.col].blocks[e.sec.block].left === 1 && r.data[e.sec.col].blocks[e.sec.block].top === 1 && r.data[(e.sec.col)+1].blocks[e.sec.block].left === 1 && r.data[e.sec.col].blocks[(e.sec.block)+1].top === 1){
+                    r.data[e.sec.col].blocks[e.sec.block].class += ' fill-blue'
+                }
+
+                break
+
+            case 'right':
+                r.data[(e.sec.col)+1].blocks[e.sec.block].left = 1
+                r.data[(e.sec.col)+1].blocks[e.sec.block].class += ' left-blue'
+
+                if(r.data[e.sec.col].blocks[e.sec.block].left === 1 && r.data[e.sec.col].blocks[e.sec.block].top === 1 && r.data[(e.sec.col)+1].blocks[e.sec.block].left === 1 && r.data[e.sec.col].blocks[(e.sec.block)+1].top === 1){
+                    r.data[e.sec.col].blocks[e.sec.block].class += ' fill-blue'
+                }
+
+                break
+
+            case 'top':
+                r.data[e.sec.col].blocks[e.sec.block].top = 1
+                r.data[e.sec.col].blocks[e.sec.block].class += ' top-blue'
+
+                if(r.data[e.sec.col].blocks[e.sec.block].left === 1 && r.data[e.sec.col].blocks[e.sec.block].top === 1 && r.data[(e.sec.col)+1].blocks[e.sec.block].left === 1 && r.data[e.sec.col].blocks[(e.sec.block)+1].top === 1){
+                    r.data[e.sec.col].blocks[e.sec.block].class += ' fill-blue'
+                }
+
+                break
+
+            case 'bottom':
+                r.data[e.sec.col].blocks[(e.sec.block)+1].top = 1
+                r.data[e.sec.col].blocks[(e.sec.block)+1].class += ' top-blue'
+
+                if(r.data[e.sec.col].blocks[e.sec.block].left === 1 && r.data[e.sec.col].blocks[e.sec.block].top === 1 && r.data[(e.sec.col)+1].blocks[e.sec.block].left === 1 && r.data[e.sec.col].blocks[(e.sec.block)+1].top === 1){
+                    r.data[e.sec.col].blocks[e.sec.block].class += ' fill-blue'
+                }
+
+                break
+
+            default:
+                break
+        }
+
+        /* check if a square is circled */
+
+        if(e.side === 'left' || e.side === 'right'){
+            //check the left square
+            if(r.data[e.sec.col].blocks[e.sec.block].left === 1){
+
+            }
+        } else {
+
+        }
+
+        /* end check */
+
+
         socket.emit('up', r.data)
         socket.to(e.code).emit('up', r.data)
     })
