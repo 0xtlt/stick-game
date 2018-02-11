@@ -39,13 +39,18 @@ var game = new Vue({
     data: {
         isActive: false,
         InGame: false,
-        adv: ''
+        adv: '',
+        lap: false,
+        data: [
+
+        ]
     }
 })
 
 socket.on('join_game', (e) => {
     ingame.code_game = e.name
-    ingame.data = e.data
+    game.data = e.data
+    game.lap = e.lap
 })
 
 socket.on('ready', (e) => {
@@ -56,7 +61,7 @@ socket.on('ready', (e) => {
 
 socket.on('end', () =>{
     game.InGame = false
-    ingame = {
+    game = {
         code_game: null,
         data: {
 

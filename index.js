@@ -126,7 +126,8 @@ function join_game(game, socket, sid, pseudo) {
     game.full = true
     socket.emit('join_game', {
         name: game.name,
-        data: game.data
+        data: game.data,
+        lap: false
     })
     socket.to(game.name).emit('ready', pseudo)
     socket.emit('ready', game.id_one.pseudo)
@@ -140,6 +141,7 @@ function new_game(socket, sid, pseudo){
         id_one: {id: 0, pseudo: ''},
         id_two: {id: 0, pseudo: ''},
         full: false,
+        lap: 0,
         data: [
 
         ],
@@ -162,7 +164,9 @@ function new_game(socket, sid, pseudo){
             col.blocks.push({
                 block: i,
                 left: 0,
-                top: 0
+                top: 0,
+                fill: false,
+                class: ''
             })
         }
 
@@ -172,11 +176,13 @@ function new_game(socket, sid, pseudo){
 
     new_game.name = random_name
     new_game.id_one.id = sid
+    new_game.lap = sid
     new_game.id_one.pseudo = pseudo
     game_data.push(new_game)
     socket.emit('join_game', {
         name: random_name,
-        data: new_game.data
+        data: new_game.data,
+        lap: true
     })
 }
 

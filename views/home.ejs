@@ -13,22 +13,24 @@
 
     <div class="inner" id="home" v-bind:class="{ active: isActive }">
         <h1>{{ msg }}</h1>
-        <label for="pseudo">Chose your name</label>
+        <label for="pseudo">Choose your name</label>
         <input type="text" v-model="pseudo" id="pseudo">
         <button v-on:click="play">Play !</button>
     </div>
     <div class="inner" id="game" v-bind:class="{ active: isActive }">
         <div id="insearch" v-if="InGame === false">
-            <h1>Bonjour {{ app.pseudo }}</h1>
-            En attente d'un partenaire
+            <h1>Hello {{ app.pseudo }}</h1>
+            Waiting for a partner
             <i class="fas fa-spinner fa-spin"></i>
         </div>
         <div id="ingame" v-if="InGame">
 
             <h1>{{ app.pseudo }} vs {{ adv }}</h1>
+            <h2 v-if="lap">It's your turn</h2>
+            <h2 v-else>It's not your turn</h2>
             <div id="stick">
-                <div class="col" v-for="item in ingame.data">{{ item.col }}
-                    <div class="block" v-for="ii in item.blocks">{{ ii.top }} : {{ ii.left }}</div>
+                <div class="col" v-for="item in game.data">{{ item.col }}
+                    <div class="block" :class="ii.class" v-for="ii in item.blocks">{{ ii.top }} : {{ ii.left }}</div>
                 </div>
             </div>
 
