@@ -41,9 +41,15 @@ var game = new Vue({
         InGame: false,
         adv: '',
         lap: false,
+        modal: false,
         data: [
 
         ]
+    },
+    methods: {
+        block: function(col, block){
+            console.log(`col is ${col} and block is ${block}`)
+        }
     }
 })
 
