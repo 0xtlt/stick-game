@@ -17,7 +17,7 @@ var game_data = [
 
 ]
 
-var default_game = {
+const default_game = {
     name: '',
     id_one: 0,
     id_two: 0,
@@ -77,6 +77,10 @@ io.sockets.on('connection', function (socket) {
         search_game(socket, cookies.sid);
     })
 
+    socket.on('debug', () => {
+        socket.emit('debug', [game_data, default_game])
+    })
+
     socket.on('disconnect', () => {
         console.log("Un client s'est déconnecté")
     })
@@ -127,7 +131,17 @@ function join_game(game, socket, sid) {
 function new_game(socket, sid){
     random_name = make_room_name()
     socket.join(random_name)
-    var new_game = default_game
+    var new_game = {
+        name: '',
+        id_one: 0,
+        id_two: 0,
+        full: false,
+        data: {
+
+        },
+        winner: 0,
+        finish: false
+    }
     new_game.name = random_name
     new_game.id_one = sid
     game_data.push(new_game)

@@ -17,7 +17,13 @@
         <button v-on:click="play">Play !</button>
     </div>
     <div class="inner" id="game" v-bind:class="{ active: isActive }">
-        Bonjour {{ app.pseudo }}
+        <div id="insearch" v-if="InGame === false">
+            <h1>Bonjour {{ app.pseudo }}</h1>
+            Vous allez rejoindre une partie
+        </div>
+        <div id="ingame" v-if="InGame">
+            game
+        </div>
     </div>
 
 <script
