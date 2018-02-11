@@ -19,8 +19,8 @@ var game_data = [
 
 const default_game = {
     name: '',
-    id_one: 0,
-    id_two: 0,
+    id_one: {id: 0, pseudo: ''},
+    id_two: {id: 0, pseudo: ''},
     full: false,
     data: {
 
@@ -74,7 +74,7 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('pseudo', function(data){
         console.log(`${data} cherche une game`)
-        search_game(socket, cookies.sid);
+        search_game(socket, cookies.sid, data);
     })
 
     socket.on('debug', () => {
@@ -83,6 +83,7 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('disconnect', () => {
         console.log("Un client s'est déconnecté")
+
     })
 
 });
@@ -109,34 +110,35 @@ function grep( elems, callback, invert ) {
     return matches;
 }
 
-function search_game(socket, sid){
+function search_game(socket, sid, pseudo){
     r = grep(game_data, (e) => { if(e.full === false){ return e } })
     if(r.length === 0){
-        new_game(socket, sid)
+        new_game(socket, sid, pseudo)
     } else {
-        join_game(r[0], socket, sid)
+        join_game(r[0], socket, sid, pseudo)
     }
 }
 
-function join_game(game, socket, sid) {
+function join_game(game, socket, sid, pseudo) {
     socket.join(game.name)
-    game.id_two = sid
+    game.id_two.id = sid
+    game.id_two.pseudo = pseudo
     game.full = true
     socket.emit('join_game', {
         name: game.name,
         data: game.data
     })
-    socket.to(game.name).emit('ready')
-    socket.emit('ready')
+    socket.to(game.name).emit('ready', pseudo)
+    socket.emit('ready', game.id_one.pseudo)
 }
 
-function new_game(socket, sid){
+function new_game(socket, sid, pseudo){
     random_name = make_room_name()
     socket.join(random_name)
     var new_game = {
         name: '',
-        id_one: 0,
-        id_two: 0,
+        id_one: {id: 0, pseudo: ''},
+        id_two: {id: 0, pseudo: ''},
         full: false,
         data: {
 
@@ -145,7 +147,8 @@ function new_game(socket, sid){
         finish: false
     }
     new_game.name = random_name
-    new_game.id_one = sid
+    new_game.id_one.id = sid
+    new_game.id_one.pseudo = pseudo
     game_data.push(new_game)
     socket.emit('join_game', {
         name: random_name,
