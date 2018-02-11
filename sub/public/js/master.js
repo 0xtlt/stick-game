@@ -79,8 +79,14 @@ socket.on('ready', (e) => {
     game.adv = e
 })
 
+socket.on('up', (e) => {
+    game.data = e
+    console.log('Update')
+    console.log(e)
+})
 
-socket.on('end', () => {
+
+/*socket.on('end', () => {
     game.InGame = false
     game = {
         code_game: null,
@@ -96,7 +102,7 @@ socket.on('change_lap', () => {
     } else {
         game.lap = true
     }
-})
+})*/
 
 /* for debugging */
 function get_server(){

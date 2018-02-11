@@ -81,6 +81,12 @@ io.sockets.on('connection', function (socket) {
         socket.to(e.code).emit('change_lap')
         socket.emit('change_lap')
         console.log(`At position : col = ${e.sec.col} & block = ${e.sec.block}, change color of the ${e.side} side`)
+        r = grep(game_data, (v) => { if(v.name === e.code){ return v } })[0]
+
+        r.data[e.sec.col].blocks[e.sec.block].left = 1
+        r.data[e.sec.col].blocks[e.sec.block].class = 'left-blue'
+        socket.emit('up', r.data)
+        socket.to(e.code).emit('up', r.data)
     })
 
     socket.on('debug', () => {
@@ -89,7 +95,6 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('disconnect', () => {
         console.log("Un client s'est déconnecté")
-
     })
 
 });
