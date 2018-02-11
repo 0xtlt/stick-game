@@ -1,3 +1,12 @@
+//for debugging
+
+var debug = false
+if(debug){
+    $('head').prepend('<link rel="stylesheet" href="/assets/css/debugging_design.sass">')
+}
+
+//end for
+
 var ingame = {
     code_game: null,
     data: {
@@ -13,19 +22,26 @@ var app = new Vue({
         play: function () {
             socket.emit('pseudo', app.pseudo)
             console.log('fait')
+            app.isActive = false
+            game.isActive = true
         }
     },
 
     data: {
         msg: 'Welcome to the Home',
-        pseudo: ''
+        pseudo: '',
+        isActive: true
     }
 })
 
 var game = new Vue({
-    el: '#game'
+    el: '#game',
+    data: {
+        isActive: false
+    }
 })
 
 socket.on('join_game', (e) => {
-    alert('')
+    ingame.code_game = e.name
+    ingame.data = e.data
 })

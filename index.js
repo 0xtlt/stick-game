@@ -77,6 +77,10 @@ io.sockets.on('connection', function (socket) {
         search_game(socket, cookies.sid);
     })
 
+    socket.on('disconnect', () => {
+        console.log("Un client s'est déconnecté")
+    })
+
 });
 
 
