@@ -14,7 +14,7 @@ var ingame = {
     ]
 }
 
-var socket = io.connect('http://localhost:80');
+var socket = io.connect('http://stick-game.thomas-t.fr:80');
 
 var app = new Vue({
     el: '#home',
@@ -68,6 +68,24 @@ var game = new Vue({
                 code: ingame.code_game
             })
             game.modal = false
+        },
+        leave: function(){
+            ingame.code_game = ''
+            game.InGame = false
+            game.isActive = false
+            game.InGame = false
+            game.adv = ''
+            game.lap = false
+            game.modal = false
+            game.score = {
+                one: 0,
+                two: 0
+            }
+            game.data = [
+
+            ]
+            app.isActive = true
+            game.isActive = false
         }
     }
 })
@@ -97,15 +115,23 @@ socket.on('up', (e) => {
 })
 
 
-/*socket.on('end', () => {
+socket.on('end', (e) => {
+    ingame.code_game = ''
     game.InGame = false
-    game = {
-        code_game: null,
-        data: {
-
-        }
+    game.isActive = false
+    game.InGame = false
+    game.adv = ''
+    game.lap = false
+    game.modal = false
+    game.score = {
+            one: 0,
+            two: 0
     }
-})*/
+    game.data = [
+
+    ]
+    console.log(e)
+})
 
 /* for debugging */
 function get_server(){

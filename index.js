@@ -177,6 +177,13 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('disconnect', () => {
         console.log("Un client s'est déconnecté")
+        /*var end = grep(game_data, (v) => { if(v.id_one === cookies.sid){ return v } else if(v.id_two === cookies.sid){ return v } else { return {name: 'off'} } })[0]
+        if(true){
+            socket.to(end.name).emit('end', {
+                code: 404
+            })
+        }*/
+
     })
 
 });
@@ -300,4 +307,4 @@ function make_room_name() {
 
 /* End functions */
 
-server.listen(80);
+server.listen(3032, "127.0.0.1");

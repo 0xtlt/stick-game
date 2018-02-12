@@ -32,6 +32,8 @@
                 <div class="col" v-for="item in game.data">{{ item.col }}
                     <div v-on:click="block(item.col, ii.block)" class="block" :class="ii.class" v-for="ii in item.blocks">{{ ii.block }} : {{ item.col }}</div>
                 </div>
+                <br>
+                <i class="fas fa-sign-out-alt fa-3x" v-on:click="leave"></i>
             </div>
 
             <div class="modal" v-if="modal">
