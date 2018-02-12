@@ -13,9 +13,9 @@
 
     <div class="inner" id="home" v-bind:class="{ active: isActive }">
         <h1>{{ msg }}</h1>
-        <label for="pseudo">Choose your name</label>
-        <input type="text" v-model="pseudo" id="pseudo">
-        <button v-on:click="play">Play !</button>
+        <label for="pseudo">Choose your name</label><br>
+        <input type="text" v-model="pseudo" id="pseudo"><br><br>
+        <button class="btn" v-on:click="play">Play !</button>
     </div>
     <div class="inner" id="game" v-bind:class="{ active: isActive }">
         <div id="insearch" v-if="InGame === false">
@@ -25,9 +25,9 @@
         </div>
         <div id="ingame" v-if="InGame">
 
-            <h1>({{ score.one }}) {{ app.pseudo }} vs {{ adv }} ({{ score.two }})</h1>
-            <h2 v-if="lap">It's your turn</h2>
-            <h2 v-else>It's not your turn</h2>
+            <h1 id="score">({{ score.one }}) {{ app.pseudo }} vs {{ adv }} ({{ score.two }})</h1>
+            <h2 id="turn" v-if="lap">It's your turn</h2>
+            <h2 id="turn" v-else>It's not your turn</h2>
             <div id="stick">
                 <div class="col" v-for="item in game.data">{{ item.col }}
                     <div v-on:click="block(item.col, ii.block)" class="block" :class="ii.class" v-for="ii in item.blocks">{{ ii.block }} : {{ item.col }}</div>

@@ -28,7 +28,7 @@ var app = new Vue({
     },
 
     data: {
-        msg: 'Welcome to the Home',
+        msg: 'Welcome to the Stick Game',
         pseudo: '',
         isActive: true
     }

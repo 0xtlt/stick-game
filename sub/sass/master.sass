@@ -1,10 +1,54 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans')
+$blue: #4169ff
+$purple: #7477ff
+$green: #00baa7
+$orange: #f68d5f
 
 body
   padding: 50px
   margin: 0
   font-family: 'Open Sans', sans-serif
+  background: $purple
+  color: white
+
+input[type="text"]
+  background: transparent
+  padding: 5px
+  border-style: solid
+  border-width: 0 0 1px 0
+  border-color: $blue
+  color: white
   
+#home, #game
+  text-align: center
+
+#score
+  position: fixed
+  top: 0
+  left: 0
+  padding: 15px
+  background: $orange
+  border-radius: 0 0 5px
+  margin: 0
+
+#turn
+  position: fixed
+  top: 0
+  right: 0
+  padding: 15px
+  background: $orange
+  border-radius: 0 0 0 5px
+  margin: 0
+
+.btn
+  color: white
+  background: $green
+  border-style: none
+  -webkit-border-radius: 5px
+  -moz-border-radius: 5px
+  border-radius: 5px
+  padding: 5px 15px
+
 .inner
   display: none
   
@@ -112,3 +156,20 @@ body
     overflow: auto
     width: 100%
     display: flex
+
+  #score
+    position: static
+    top: 0
+    width: 100%
+    padding: 15px
+    background: $orange
+    border-radius: 0
+
+  #turn
+    position: fixed
+    bottom: 0
+    right: 0
+    top: auto
+    padding: 15px
+    background: $orange
+    border-radius: 0
