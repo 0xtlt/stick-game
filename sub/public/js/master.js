@@ -1,6 +1,7 @@
 //for debugging
 
 var debug = false
+var debug_table = true
 if(debug){
     $('head').prepend('<link rel="stylesheet" href="/assets/css/debugging_design.sass">')
 }

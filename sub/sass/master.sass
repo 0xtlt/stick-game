@@ -3,13 +3,20 @@ $blue: #4169ff
 $purple: #7477ff
 $green: #00baa7
 $orange: #f68d5f
+$red_bar: #fa4c32
+$red_fill: #fa8264
+$blue_bar: #007bd5
+$blue_fill: #4bb1e0
+$gradient: linear-gradient(135deg, #4144c0 0%, #ffc2a0 100%)
+$border_bloc: #325c80
 
 body
   padding: 50px
   margin: 0
   font-family: 'Open Sans', sans-serif
-  background: $purple
+  background: $gradient
   color: white
+  min-height: calc(100vh - 100px)
 
 input[type="text"]
   background: transparent
@@ -62,7 +69,7 @@ input[type="text"]
   display: block
   border-style: solid
   border-width: 7px 0 0 7px
-  border-color: #000
+  border-color: $border_bloc
   height: 40px
   width: 42px
   cursor: pointer
@@ -81,23 +88,23 @@ input[type="text"]
   transition: all .5s 
 
 .left-blue
-  border-left-color: blue
+  border-left-color: $blue_bar
 
 .top-blue
-  border-top-color: blue
+  border-top-color: $blue_bar
 
 .fill-blue
-  background: #4752ff
+  background: $blue_fill
 
 
 .left-red
-  border-left-color: red
+  border-left-color: $red_bar
 
 .top-red
-  border-top-color: red
+  border-top-color: $red_bar
 
 .fill-red
-  background: #ff5549
+  background: $red_fill
 
 .modal
   position: fixed
@@ -118,13 +125,13 @@ input[type="text"]
 .bartop, .barbottom
   width: 100%
   height: 10px
-  background-color: black
+  background-color: $border_bloc
   position: absolute
 
 .barleft, .barright
   width: 10px
   height: 100%
-  background-color: black
+  background-color: $border_bloc
   position: absolute
 
 .bartop

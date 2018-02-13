@@ -30,7 +30,7 @@
             <h2 id="turn" v-else>It's not your turn</h2>
             <div id="stick">
                 <div class="col" v-for="item in game.data">{{ item.col }}
-                    <div v-on:click="block(item.col, ii.block)" class="block" :class="ii.class" v-for="ii in item.blocks">{{ ii.block }} : {{ item.col }}</div>
+                    <div v-on:click="block(item.col, ii.block)" class="block" :class="ii.class" v-for="ii in item.blocks"><span v-if="debug_table">{{ ii.block }} : {{ item.col }}</span></div>
                 </div>
                 <br>
                 <i class="fas fa-sign-out-alt fa-3x" v-on:click="leave"></i>
