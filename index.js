@@ -225,6 +225,7 @@ function join_game(game, socket, sid, pseudo) {
     game.id_two.pseudo = pseudo
     game.full = true
     socket.emit('join_game', {
+        owner: false,
         name: game.name,
         data: game.data,
         lap: false
@@ -284,6 +285,7 @@ function new_game(socket, sid, pseudo){
     new_game.id_one.pseudo = pseudo
     game_data.push(new_game)
     socket.emit('join_game', {
+        owner: true,
         name: random_name,
         data: new_game.data,
         lap: true

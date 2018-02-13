@@ -25,7 +25,7 @@
         </div>
         <div id="ingame" v-if="InGame">
 
-            <h1 id="score">({{ score.one }}) {{ app.pseudo }} vs {{ adv }} ({{ score.two }})</h1>
+            <h1 id="score">(<span v-if="owner">{{ score.one }}</span><span v-else>{{ score.two }}</span>) {{ app.pseudo }} vs {{ adv }} (<span v-if="owner">{{ score.two }}</span><span v-else>{{ score.one }}</span>)</h1>
             <h2 id="turn" v-if="lap">It's your turn</h2>
             <h2 id="turn" v-else>It's not your turn</h2>
             <div id="stick">

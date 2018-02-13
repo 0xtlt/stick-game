@@ -37,6 +37,7 @@ var app = new Vue({
 var game = new Vue({
     el: '#game',
     data: {
+        owner: false,
         isActive: false,
         InGame: false,
         adv: '',
@@ -91,6 +92,7 @@ var game = new Vue({
 })
 
 socket.on('join_game', (e) => {
+    game.owner = e.owner
     ingame.code_game = e.name
     game.data = e.data
     game.lap = e.lap
