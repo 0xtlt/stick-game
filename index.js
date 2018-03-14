@@ -93,6 +93,9 @@ io.sockets.on('connection', function (socket) {
         //console.log(e.side)
         switch (e.side) {
             case 'left':
+                if(r.data[e.sec.col].blocks[e.sec.block].left === 1){
+                    break
+                }
                 r.data[e.sec.col].blocks[e.sec.block].left = 1
                 r.data[e.sec.col].blocks[e.sec.block].class += ' left-'+color
 
@@ -120,6 +123,9 @@ io.sockets.on('connection', function (socket) {
                 break
 
             case 'right':
+                if(r.data[(e.sec.col)+1].blocks[e.sec.block].left === 1){
+                    break
+                }
                 r.data[(e.sec.col)+1].blocks[e.sec.block].left = 1
                 r.data[(e.sec.col)+1].blocks[e.sec.block].class += ' left-'+color
 
@@ -147,6 +153,9 @@ io.sockets.on('connection', function (socket) {
                 break
 
             case 'top':
+                if(r.data[e.sec.col].blocks[e.sec.block].top === 1){
+                    break
+                }
                 r.data[e.sec.col].blocks[e.sec.block].top = 1
                 r.data[e.sec.col].blocks[e.sec.block].class += ' top-'+color
 
@@ -176,6 +185,9 @@ io.sockets.on('connection', function (socket) {
                 break
 
             case 'bottom':
+                if(r.data[e.sec.col].blocks[(e.sec.block)+1].top === 1){
+                    break
+                }
                 r.data[e.sec.col].blocks[(e.sec.block)+1].top = 1
                 r.data[e.sec.col].blocks[(e.sec.block)+1].class += ' top-'+color
 
