@@ -58,7 +58,7 @@ app.get('/', function(req, res) {
         sourceMap: true, // Includes Base64 encoded source maps in output css
         sourceComments: true, // Includes source comments in output css
         watchFiles: true, // Watches sass files and updates mtime on main files for each change
-        logToConsole: true // If true, will log to console.error on errors
+        logToConsole: false // If true, will log to console.error on errors
     }));
 
 
@@ -90,6 +90,7 @@ io.sockets.on('connection', function (socket) {
         } else {
             color = 'blue'
         }
+        //console.log(e.side)
         switch (e.side) {
             case 'left':
                 r.data[e.sec.col].blocks[e.sec.block].left = 1
@@ -97,6 +98,17 @@ io.sockets.on('connection', function (socket) {
 
                 if(r.data[e.sec.col].blocks[e.sec.block].left === 1 && r.data[e.sec.col].blocks[e.sec.block].top === 1 && r.data[(e.sec.col)+1].blocks[e.sec.block].left === 1 && r.data[e.sec.col].blocks[(e.sec.block)+1].top === 1){
                     r.data[e.sec.col].blocks[e.sec.block].class += ' fill-'+color
+                    repeat_lap = true
+                    if(r.lap === r.id_two.id){
+                        r.score.two += 1
+                    } else {
+                        r.score.one += 1
+                    }
+                }
+
+                if(r.data[(e.sec.col) - 1].blocks[e.sec.block].left === 1 && r.data[(e.sec.col) - 1].blocks[e.sec.block].top === 1 && r.data[(e.sec.col) - 1].blocks[(e.sec.block) + 1].top === 1){
+                    console.log('extro')
+                    r.data[(e.sec.col) - 1].blocks[e.sec.block].class += ' fill-'+color
                     repeat_lap = true
                     if(r.lap === r.id_two.id){
                         r.score.two += 1
@@ -121,6 +133,17 @@ io.sockets.on('connection', function (socket) {
                     }
                 }
 
+                if(r.data[(e.sec.col) + 1].blocks[e.sec.block].left === 1 && r.data[(e.sec.col) + 1].blocks[e.sec.block].top === 1 && r.data[(e.sec.col) + 1].blocks[(e.sec.block) + 1].top === 1){
+                    console.log('extro')
+                    r.data[(e.sec.col) + 1].blocks[e.sec.block].class += ' fill-'+color
+                    repeat_lap = true
+                    if(r.lap === r.id_two.id){
+                        r.score.two += 1
+                    } else {
+                        r.score.one += 1
+                    }
+                }
+
                 break
 
             case 'top':
@@ -137,6 +160,19 @@ io.sockets.on('connection', function (socket) {
                     }
                 }
 
+                //console.log(`left top = ${r.data[e.sec.col].blocks[(e.sec.block) - 1].left} & top top = ${r.data[e.sec.col].blocks[(e.sec.block) - 1].top} & left top left = ${r.data[(e.sec.col) + 1].blocks[(e.sec.block) - 1].left}`)
+
+                if(r.data[e.sec.col].blocks[(e.sec.block) - 1].left === 1 && r.data[e.sec.col].blocks[(e.sec.block) - 1].top === 1 && r.data[(e.sec.col)+1].blocks[(e.sec.block) - 1].left === 1){
+                    console.log('extro')
+                    r.data[e.sec.col].blocks[(e.sec.block) - 1].class += ' fill-'+color
+                    repeat_lap = true
+                    if(r.lap === r.id_two.id){
+                        r.score.two += 1
+                    } else {
+                        r.score.one += 1
+                    }
+                }
+
                 break
 
             case 'bottom':
@@ -145,6 +181,17 @@ io.sockets.on('connection', function (socket) {
 
                 if(r.data[e.sec.col].blocks[e.sec.block].left === 1 && r.data[e.sec.col].blocks[e.sec.block].top === 1 && r.data[(e.sec.col)+1].blocks[e.sec.block].left === 1 && r.data[e.sec.col].blocks[(e.sec.block)+1].top === 1){
                     r.data[e.sec.col].blocks[e.sec.block].class += ' fill-'+color
+                    repeat_lap = true
+                    if(r.lap === r.id_two.id){
+                        r.score.two += 1
+                    } else {
+                        r.score.one += 1
+                    }
+                }
+
+                if(r.data[e.sec.col].blocks[(e.sec.block) + 1].left === 1 && r.data[e.sec.col].blocks[(e.sec.block) + 1].top === 1 && r.data[(e.sec.col)+1].blocks[(e.sec.block) + 1].left === 1){
+                    console.log('extro')
+                    r.data[e.sec.col].blocks[(e.sec.block) + 1].class += ' fill-'+color
                     repeat_lap = true
                     if(r.lap === r.id_two.id){
                         r.score.two += 1

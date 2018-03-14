@@ -1,7 +1,7 @@
 //for debugging
 
 var debug = false
-var debug_table = true
+var debug_table = false
 if(debug){
     $('head').prepend('<link rel="stylesheet" href="/assets/css/debugging_design.sass">')
 }
@@ -15,7 +15,7 @@ var ingame = {
     ]
 }
 
-var socket = io.connect('http://stick-game.thomas-t.fr:80');
+var socket = io.connect('http://localhost:3032');
 
 var app = new Vue({
     el: '#home',

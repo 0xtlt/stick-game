@@ -29,7 +29,7 @@
             <h2 id="turn" v-if="lap">It's your turn</h2>
             <h2 id="turn" v-else>It's not your turn</h2>
             <div id="stick">
-                <div class="col" v-for="item in game.data">{{ item.col }}
+                <div class="col" v-for="item in game.data"><span v-if="debug_table">{{ item.col }}</span>
                     <div v-on:click="block(item.col, ii.block)" class="block" :class="ii.class" v-for="ii in item.blocks"><span v-if="debug_table">{{ ii.block }} : {{ item.col }}</span></div>
                 </div>
                 <br>
