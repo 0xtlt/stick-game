@@ -226,8 +226,12 @@ io.sockets.on('connection', function (socket) {
             }
         }
 
-        socket.emit('up', [r.data, r.score, repeat_lap])
-        socket.to(e.code).emit('up', [r.data, r.score, repeat_lap])
+        if((r.score.one + r.score.two) === 110){
+            //emit success
+        } else {
+            socket.emit('up', [r.data, r.score, repeat_lap])
+            socket.to(e.code).emit('up', [r.data, r.score, repeat_lap])
+        }
     })
 
     socket.on('debug', () => {
@@ -314,7 +318,7 @@ function new_game(socket, sid, pseudo){
     }
 
     //generate columns
-    for(n = 0; n < 10; n++){
+    for(n = 0; n < 12; n++){
 
         var col = {
             col: n,
@@ -324,14 +328,82 @@ function new_game(socket, sid, pseudo){
         }
 
         //generate blocks
-        for(i = 0; i < 10; i++){
-            col.blocks.push({
-                block: i,
-                left: 0,
-                top: 0,
-                fill: false,
-                class: ''
-            })
+        if(n === 0){
+            for(i = 0; i < 11; i++){
+                if(i === 0){
+                    col.blocks.push({
+                        block: i,
+                        left: 1,
+                        top: 1,
+                        fill: true,
+                        class: ' top-blue left-blue'
+                    })
+                } else if(i === 10){
+                    col.blocks.push({
+                        block: i,
+                        left: 1,
+                        top: 1,
+                        fill: true,
+                        class: ' top-blue whity-left'
+                    })
+                } else {
+                    col.blocks.push({
+                        block: i,
+                        left: 1,
+                        top: 0,
+                        fill: true,
+                        class: ' left-blue'
+                    })
+                }
+            }
+        } else if(n === 11){
+            for(i = 0; i < 11; i++){
+                if(i === 10){
+                    col.blocks.push({
+                        block: i,
+                        left: 1,
+                        top: 1,
+                        fill: true,
+                        class: ' whity-top whity-left'
+                    })
+                } else {
+                    col.blocks.push({
+                        block: i,
+                        left: 1,
+                        top: 1,
+                        fill: true,
+                        class: ' whity-top left-blue'
+                    })
+                }
+            }
+        } else {
+            for(i = 0; i < 11; i++){
+                if(i === 0){
+                    col.blocks.push({
+                        block: i,
+                        left: 0,
+                        top: 1,
+                        fill: true,
+                        class: ' top-blue'
+                    })
+                } else if(i === 10){
+                    col.blocks.push({
+                        block: i,
+                        left: 1,
+                        top: 1,
+                        fill: true,
+                        class: ' top-blue whity-left'
+                    })
+                } else {
+                    col.blocks.push({
+                        block: i,
+                        left: 0,
+                        top: 0,
+                        fill: false,
+                        class: ''
+                    })
+                }
+            }
         }
 
         new_game.data.push(col)
