@@ -94,6 +94,7 @@ io.sockets.on('connection', function (socket) {
         switch (e.side) {
             case 'left':
                 if(r.data[e.sec.col].blocks[e.sec.block].left === 1){
+                    repeat_lap = true
                     break
                 }
                 r.data[e.sec.col].blocks[e.sec.block].left = 1
@@ -124,6 +125,7 @@ io.sockets.on('connection', function (socket) {
 
             case 'right':
                 if(r.data[(e.sec.col)+1].blocks[e.sec.block].left === 1){
+                    repeat_lap = true
                     break
                 }
                 r.data[(e.sec.col)+1].blocks[e.sec.block].left = 1
@@ -154,6 +156,7 @@ io.sockets.on('connection', function (socket) {
 
             case 'top':
                 if(r.data[e.sec.col].blocks[e.sec.block].top === 1){
+                    repeat_lap = true
                     break
                 }
                 r.data[e.sec.col].blocks[e.sec.block].top = 1
@@ -186,6 +189,7 @@ io.sockets.on('connection', function (socket) {
 
             case 'bottom':
                 if(r.data[e.sec.col].blocks[(e.sec.block)+1].top === 1){
+                    repeat_lap = true
                     break
                 }
                 r.data[e.sec.col].blocks[(e.sec.block)+1].top = 1
@@ -336,7 +340,7 @@ function new_game(socket, sid, pseudo){
                         left: 1,
                         top: 1,
                         fill: true,
-                        class: ' top-blue left-blue'
+                        class: ' top-top left-left'
                     })
                 } else if(i === 10){
                     col.blocks.push({
@@ -344,7 +348,7 @@ function new_game(socket, sid, pseudo){
                         left: 1,
                         top: 1,
                         fill: true,
-                        class: ' top-blue whity-left'
+                        class: ' top-top whity-left'
                     })
                 } else {
                     col.blocks.push({
@@ -352,7 +356,7 @@ function new_game(socket, sid, pseudo){
                         left: 1,
                         top: 0,
                         fill: true,
-                        class: ' left-blue'
+                        class: ' left-left'
                     })
                 }
             }
@@ -372,7 +376,7 @@ function new_game(socket, sid, pseudo){
                         left: 1,
                         top: 1,
                         fill: true,
-                        class: ' whity-top left-blue'
+                        class: ' whity-top left-left'
                     })
                 }
             }
@@ -384,7 +388,7 @@ function new_game(socket, sid, pseudo){
                         left: 0,
                         top: 1,
                         fill: true,
-                        class: ' top-blue'
+                        class: ' top-top'
                     })
                 } else if(i === 10){
                     col.blocks.push({
@@ -392,7 +396,7 @@ function new_game(socket, sid, pseudo){
                         left: 1,
                         top: 1,
                         fill: true,
-                        class: ' top-blue whity-left'
+                        class: ' top-top whity-left'
                     })
                 } else {
                     col.blocks.push({
