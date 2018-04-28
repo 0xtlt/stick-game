@@ -17,11 +17,11 @@
   },
   "homepage": "https://github.com/ThomasT404/stick-game#readme",
   "dependencies": {
-    "express": "^4.16.2",
-    "express-compile-sass": "^3.0.4",
-    "node-sass": "^4.7.2",
-    "socket.io": "^2.0.4",
-    "ejs": "^2.5.7",
+    "express": "^4.16.3",
+    "express-compile-sass": "^4.0.0",
+    "node-sass": "^4.9.0",
+    "socket.io": "^2.1.0",
+    "ejs": "^2.5.9",
     "express-session": "^1.15.6",
     "cookie": "^0.3.1",
     "cookie-parser": "^1.4.3"
